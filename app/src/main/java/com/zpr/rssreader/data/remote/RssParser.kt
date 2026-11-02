@@ -4,6 +4,7 @@ import com.zpr.rssreader.data.remote.model.ParsedFeed
 import com.zpr.rssreader.data.remote.model.ParsedItem
 import org.jdom2.Element
 import org.jdom2.input.SAXBuilder
+import org.xml.sax.InputSource
 import java.io.StringReader
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -184,9 +185,7 @@ class RssParser {
     private fun createBuilder(): SAXBuilder {
         val builder = SAXBuilder()
         builder.setExpandEntities(false)
-        SAFE_FEATURES.forEach { (feature, enabled) ->
-            runCatching { builder.setFeature(feature, enabled) }
-        }
+        builder.setEntityResolver { _, _ -> InputSource(StringReader("")) }
         return builder
     }
 
@@ -260,13 +259,6 @@ class RssParser {
             "deg" to "\u00B0",
             "laquo" to "\u00AB",
             "raquo" to "\u00BB"
-        )
-
-        private val SAFE_FEATURES = listOf(
-            "http://apache.org/xml/features/disallow-doctype-decl" to true,
-            "http://xml.org/sax/features/external-general-entities" to false,
-            "http://xml.org/sax/features/external-parameter-entities" to false,
-            "http://apache.org/xml/features/nonvalidating/load-external-dtd" to false
         )
 
         private val LEGACY_DATE_PATTERNS = listOf(

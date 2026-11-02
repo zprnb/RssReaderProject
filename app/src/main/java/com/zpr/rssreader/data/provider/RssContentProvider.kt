@@ -6,14 +6,12 @@ import android.content.UriMatcher
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
-import com.zpr.rssreader.RssApplication
+import com.zpr.rssreader.data.local.AppDatabase
 
 class RssContentProvider : ContentProvider() {
 
     private val database
-        get() = (requireNotNull(context).applicationContext as RssApplication)
-            .container
-            .database
+        get() = AppDatabase.getInstance(requireNotNull(context).applicationContext)
 
     override fun onCreate(): Boolean = true
 
