@@ -13,6 +13,7 @@ work = "2.10.0"
 okhttp = "4.12.0"
 navigation = "2.8.5"
 coroutines = "1.9.0"
+jdom2 = "2.0.6"
 junit = "4.13.2"
 
 [libraries]
@@ -33,6 +34,7 @@ okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-i
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+jdom2 = { group = "org.jdom", name = "jdom2", version.ref = "jdom2" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
 [plugins]
