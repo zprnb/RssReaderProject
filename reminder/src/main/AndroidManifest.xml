@@ -3,6 +3,11 @@
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <queries>
+        <package android:name="com.zpr.rssreader" />
+        <provider android:authorities="com.zpr.rssreader.provider" />
+    </queries>
+
     <application
         android:name=".ReminderApplication"
         android:allowBackup="false"

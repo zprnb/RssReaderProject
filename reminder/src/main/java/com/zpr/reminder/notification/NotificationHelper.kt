@@ -7,10 +7,15 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.zpr.reminder.R
+import com.zpr.reminder.data.RemoteArticle
 
 object NotificationHelper {
 
     const val UPDATE_NOTIFICATION_ID = 1001
+    const val NEW_ARTICLES_NOTIFICATION_ID = 1002
+
+    private const val MAIN_APP_PACKAGE = "com.zpr.rssreader"
+    private const val MAX_INBOX_LINES = 5
 
     @SuppressLint("MissingPermission")
     fun showUpdateNotification(
@@ -42,6 +47,83 @@ object NotificationHelper {
 
         manager.notify(notificationId, notification)
         return true
+    }
+
+    @SuppressLint("MissingPermission")
+    fun showNewArticlesNotification(
+        context: Context,
+        articles: List<RemoteArticle>
+    ): Boolean {
+        if (articles.isEmpty()) return false
+
+        NotificationChannels.createAll(context)
+
+        val manager = NotificationManagerCompat.from(context)
+        if (!manager.areNotificationsEnabled()) {
+            return false
+        }
+
+        val count = articles.size
+        val title = context.resources.getQuantityString(
+            R.plurals.new_articles_title,
+            count,
+            count
+        )
+        val first = articles.first()
+        val content = if (first.feedTitle.isBlank()) {
+            first.title
+        } else {
+            "${first.feedTitle}：${first.title}"
+        }
+
+        val style = NotificationCompat.InboxStyle().setBigContentTitle(title)
+        articles.take(MAX_INBOX_LINES).forEach { article ->
+            style.addLine(
+                if (article.feedTitle.isBlank()) {
+                    article.title
+                } else {
+                    "${article.feedTitle}：${article.title}"
+                }
+            )
+        }
+        if (count > MAX_INBOX_LINES) {
+            style.setSummaryText(
+                context.getString(R.string.new_articles_more, count - MAX_INBOX_LINES)
+            )
+        }
+
+        val notification = NotificationCompat.Builder(
+            context,
+            NotificationChannels.REMINDER_CHANNEL_ID
+        )
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setStyle(style)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setAutoCancel(true)
+            .setNumber(count)
+            .setContentIntent(
+                buildMainAppIntent(context, NEW_ARTICLES_NOTIFICATION_ID)
+            )
+            .build()
+
+        manager.notify(NEW_ARTICLES_NOTIFICATION_ID, notification)
+        return true
+    }
+
+    private fun buildMainAppIntent(context: Context, notificationId: Int): PendingIntent? {
+        val launchIntent = context.packageManager.getLaunchIntentForPackage(MAIN_APP_PACKAGE)
+            ?: return buildContentIntent(context, notificationId)
+        launchIntent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        return PendingIntent.getActivity(
+            context,
+            notificationId,
+            launchIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     private fun buildContentIntent(context: Context, notificationId: Int): PendingIntent? {

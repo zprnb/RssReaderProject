@@ -12,6 +12,20 @@
     <string name="notification_permission_denied_toast">未授予通知权限，无法发送提醒</string>
     <string name="notification_settings_unavailable">无法打开系统通知设置</string>
     <string name="open_notification_settings">打开系统通知设置</string>
+    <string name="reminder_switch_label">启用定时提醒</string>
+    <string name="reminder_description">定时读取主 App 的未读文章，发现更新后发送通知。</string>
+    <string name="reminder_enabled">定时提醒已开启</string>
+    <string name="reminder_disabled">定时提醒已关闭</string>
+    <string name="reminder_last_check">上次检查：%1$s</string>
+    <string name="reminder_last_check_none">尚未检查</string>
+    <string name="reminder_check_now">立即检查一次</string>
+    <string name="reminder_check_started">已开始检查更新</string>
+    <string name="reminder_check_disabled">请先开启定时提醒</string>
+    <string name="new_articles_more">还有 %1$d 篇</string>
+    <plurals name="new_articles_title">
+        <item quantity="one">%d 篇 RSS 新文章</item>
+        <item quantity="other">%d 篇 RSS 新文章</item>
+    </plurals>
     <string name="test_notification_section_title">通知测试</string>
     <string name="test_notification_description">点击下方按钮发送一条示例 RSS 更新提醒，确认通知样式与点击跳转。</string>
     <string name="test_notification_button">发送测试通知</string>

@@ -12,13 +12,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import com.zpr.reminder.R
+import com.zpr.reminder.data.ReminderPreferences
 import com.zpr.reminder.databinding.ActivityMainBinding
 import com.zpr.reminder.notification.NotificationChannels
 import com.zpr.reminder.notification.NotificationHelper
+import com.zpr.reminder.work.ReminderScheduler
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var reminderPreferences: ReminderPreferences
     private var pendingTestNotification = false
 
     private val permissionLauncher = registerForActivityResult(
@@ -47,6 +54,37 @@ class MainActivity : AppCompatActivity() {
 
         NotificationChannels.createAll(this)
 
+        reminderPreferences = ReminderPreferences(this)
+        binding.reminderSwitch.isChecked = reminderPreferences.reminderEnabled
+        binding.reminderSwitch.setOnCheckedChangeListener { _, isChecked ->
+            reminderPreferences.reminderEnabled = isChecked
+            if (isChecked) {
+                ReminderScheduler.schedulePeriodic(
+                    this,
+                    reminderPreferences.checkIntervalMinutes
+                )
+            } else {
+                ReminderScheduler.cancelPeriodic(this)
+            }
+            updateReminderState()
+        }
+        binding.checkNowButton.setOnClickListener {
+            if (!reminderPreferences.reminderEnabled) {
+                Toast.makeText(
+                    this,
+                    R.string.reminder_check_disabled,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+            ReminderScheduler.checkNow(this)
+            Toast.makeText(
+                this,
+                R.string.reminder_check_started,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
         binding.requestPermissionButton.setOnClickListener {
             pendingTestNotification = false
             requestNotificationPermission()
@@ -59,11 +97,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateNotificationState()
+        updateReminderState()
     }
 
     override fun onResume() {
         super.onResume()
         updateNotificationState()
+        updateReminderState()
     }
 
     private fun requestNotificationPermission() {
@@ -86,6 +126,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    private fun updateReminderState() {
+        binding.reminderStatusText.text = getString(
+            if (reminderPreferences.reminderEnabled) {
+                R.string.reminder_enabled
+            } else {
+                R.string.reminder_disabled
+            }
+        )
+
+        val lastCheckedAt = reminderPreferences.lastCheckedAt
+        binding.lastCheckText.text = if (lastCheckedAt <= 0L) {
+            getString(R.string.reminder_last_check_none)
+        } else {
+            getString(R.string.reminder_last_check, formatTime(lastCheckedAt))
+        }
+    }
+
+    private fun formatTime(timestamp: Long): String {
+        val formatter = DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd HH:mm",
+            Locale.getDefault()
+        )
+        return Instant.ofEpochMilli(timestamp)
+            .atZone(ZoneId.systemDefault())
+            .format(formatter)
     }
 
     private fun onTestNotificationClicked() {
