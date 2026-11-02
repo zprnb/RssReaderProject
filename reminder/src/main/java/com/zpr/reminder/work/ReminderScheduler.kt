@@ -51,4 +51,16 @@ object ReminderScheduler {
             request
         )
     }
+
+    fun scheduleSnooze(context: Context, delayMinutes: Int = 15) {
+        val request = OneTimeWorkRequestBuilder<ReminderCheckWorker>()
+            .setInitialDelay(delayMinutes.coerceAtLeast(1).toLong(), TimeUnit.MINUTES)
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            ReminderCheckWorker.SNOOZE_WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            request
+        )
+    }
 }

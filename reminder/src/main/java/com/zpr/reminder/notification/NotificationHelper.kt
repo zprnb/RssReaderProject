@@ -16,6 +16,9 @@ object NotificationHelper {
 
     private const val MAIN_APP_PACKAGE = "com.zpr.rssreader"
     private const val MAX_INBOX_LINES = 5
+    private const val REQUEST_CODE_MARK_READ = 2001
+    private const val REQUEST_CODE_SNOOZE = 2002
+    private const val REQUEST_CODE_IGNORE = 2003
 
     @SuppressLint("MissingPermission")
     fun showUpdateNotification(
@@ -107,10 +110,76 @@ object NotificationHelper {
             .setContentIntent(
                 buildMainAppIntent(context, NEW_ARTICLES_NOTIFICATION_ID)
             )
+            .addAction(
+                R.drawable.ic_notification,
+                context.getString(R.string.action_mark_read),
+                actionPendingIntent(
+                    context,
+                    markReadIntent(context, articles),
+                    REQUEST_CODE_MARK_READ
+                )
+            )
+            .addAction(
+                R.drawable.ic_notification,
+                context.getString(R.string.action_snooze),
+                actionPendingIntent(
+                    context,
+                    snoozeIntent(context, articles),
+                    REQUEST_CODE_SNOOZE
+                )
+            )
+            .addAction(
+                R.drawable.ic_notification,
+                context.getString(R.string.action_ignore),
+                actionPendingIntent(
+                    context,
+                    ignoreIntent(context),
+                    REQUEST_CODE_IGNORE
+                )
+            )
             .build()
 
         manager.notify(NEW_ARTICLES_NOTIFICATION_ID, notification)
         return true
+    }
+
+    private fun markReadIntent(context: Context, articles: List<RemoteArticle>): Intent {
+        return Intent(context, NotificationActionReceiver::class.java).apply {
+            action = NotificationActionReceiver.ACTION_MARK_READ
+            putExtra(
+                NotificationActionReceiver.EXTRA_ARTICLE_IDS,
+                articles.map { it.id }.toLongArray()
+            )
+        }
+    }
+
+    private fun snoozeIntent(context: Context, articles: List<RemoteArticle>): Intent {
+        return Intent(context, NotificationActionReceiver::class.java).apply {
+            action = NotificationActionReceiver.ACTION_SNOOZE
+            putExtra(
+                NotificationActionReceiver.EXTRA_MIN_FETCHED_AT,
+                articles.minOf { it.fetchedAt }
+            )
+        }
+    }
+
+    private fun ignoreIntent(context: Context): Intent {
+        return Intent(context, NotificationActionReceiver::class.java).apply {
+            action = NotificationActionReceiver.ACTION_IGNORE
+        }
+    }
+
+    private fun actionPendingIntent(
+        context: Context,
+        intent: Intent,
+        requestCode: Int
+    ): PendingIntent {
+        return PendingIntent.getBroadcast(
+            context,
+            requestCode,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     private fun buildMainAppIntent(context: Context, notificationId: Int): PendingIntent? {

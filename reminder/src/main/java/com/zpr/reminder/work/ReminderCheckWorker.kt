@@ -43,5 +43,6 @@ class ReminderCheckWorker(
     companion object {
         const val PERIODIC_WORK_NAME = "reminder_check_rss"
         const val ONE_TIME_WORK_NAME = "reminder_check_now"
+        const val SNOOZE_WORK_NAME = "reminder_check_snooze"
     }
 }
