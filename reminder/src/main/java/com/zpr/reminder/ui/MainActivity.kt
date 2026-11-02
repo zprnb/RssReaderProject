@@ -14,16 +14,24 @@ import androidx.core.content.ContextCompat
 import com.zpr.reminder.R
 import com.zpr.reminder.databinding.ActivityMainBinding
 import com.zpr.reminder.notification.NotificationChannels
+import com.zpr.reminder.notification.NotificationHelper
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var pendingTestNotification = false
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         updateNotificationState()
-        if (!granted) {
+        if (granted) {
+            if (pendingTestNotification) {
+                pendingTestNotification = false
+                sendTestNotification()
+            }
+        } else {
+            pendingTestNotification = false
             Toast.makeText(
                 this,
                 R.string.notification_permission_denied_toast,
@@ -40,10 +48,14 @@ class MainActivity : AppCompatActivity() {
         NotificationChannels.createAll(this)
 
         binding.requestPermissionButton.setOnClickListener {
+            pendingTestNotification = false
             requestNotificationPermission()
         }
         binding.openSettingsButton.setOnClickListener {
             openNotificationSettings()
+        }
+        binding.testNotificationButton.setOnClickListener {
+            onTestNotificationClicked()
         }
 
         updateNotificationState()
@@ -74,6 +86,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    private fun onTestNotificationClicked() {
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            !isNotificationPermissionGranted()
+        ) {
+            pendingTestNotification = true
+            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            return
+        }
+        sendTestNotification()
+    }
+
+    private fun sendTestNotification() {
+        val shown = NotificationHelper.showUpdateNotification(
+            this,
+            getString(R.string.test_notification_title),
+            getString(R.string.test_notification_content)
+        )
+        Toast.makeText(
+            this,
+            if (shown) R.string.test_notification_sent else R.string.test_notification_blocked,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun openNotificationSettings() {

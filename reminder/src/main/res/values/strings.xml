@@ -12,6 +12,13 @@
     <string name="notification_permission_denied_toast">未授予通知权限，无法发送提醒</string>
     <string name="notification_settings_unavailable">无法打开系统通知设置</string>
     <string name="open_notification_settings">打开系统通知设置</string>
+    <string name="test_notification_section_title">通知测试</string>
+    <string name="test_notification_description">点击下方按钮发送一条示例 RSS 更新提醒，确认通知样式与点击跳转。</string>
+    <string name="test_notification_button">发送测试通知</string>
+    <string name="test_notification_title">RSS 更新提醒</string>
+    <string name="test_notification_content">你订阅的「示例科技」发布了 3 篇新文章，点击查看。</string>
+    <string name="test_notification_sent">测试通知已发送</string>
+    <string name="test_notification_blocked">通知未发送，请检查系统通知权限</string>
     <string name="notification_channel_section_title">通知渠道</string>
     <string name="notification_channel_status">通知渠道已创建：RSS 提醒</string>
     <string name="notification_channel_hint">可在系统设置中单独管理该渠道的提醒方式。</string>
