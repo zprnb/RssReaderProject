@@ -8,6 +8,11 @@ import com.zpr.rssreader.data.remote.model.ParsedItem
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 
+/**
+ * RSS 同步仓库。
+ *
+ * 串联网络拉取、XML 解析与 Room 持久化，是主 App 与后台 Worker 的共同入口。
+ */
 class RssSyncRepository(
     private val feedRepository: RssFeedRepository,
     private val itemRepository: RssItemRepository,
@@ -16,6 +21,9 @@ class RssSyncRepository(
     private val clock: () -> Long = System::currentTimeMillis
 ) {
 
+    /**
+     * 添加订阅源：拉取并解析订阅内容，写入或更新订阅源与文章，返回本次新增数量。
+     */
     suspend fun addFeed(url: String, customTitle: String? = null): AddFeedResult {
         val normalizedUrl = httpClient.normalizeUrl(url)
         val xml = httpClient.fetch(normalizedUrl)
@@ -86,6 +94,9 @@ class RssSyncRepository(
         return inserted
     }
 
+    /**
+     * 依次刷新全部订阅源；单个订阅失败不会中断其他订阅的刷新。
+     */
     suspend fun refreshAllFeeds(): RefreshSummary {
         val feeds = feedRepository.getAllFeeds()
         var success = 0

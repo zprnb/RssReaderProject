@@ -9,10 +9,19 @@ import java.io.IOException
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
+/**
+ * RSS 网络客户端。
+ *
+ * 负责 URL 规范化、请求头设置、响应字符集识别与网络异常封装，
+ * 所有请求在 IO 线程执行。
+ */
 class RssHttpClient(
     private val client: OkHttpClient = createDefaultClient()
 ) {
 
+    /**
+     * 拉取订阅源文本，HTTP 非 2xx、空响应或网络错误时抛出 [RssNetworkException]。
+     */
     suspend fun fetch(rawUrl: String): String = withContext(Dispatchers.IO) {
         val url = normalizeUrl(rawUrl)
         val request = Request.Builder()

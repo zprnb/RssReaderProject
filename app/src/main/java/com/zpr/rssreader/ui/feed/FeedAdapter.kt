@@ -10,6 +10,9 @@ import com.zpr.rssreader.R
 import com.zpr.rssreader.data.local.entity.RssFeedWithUnread
 import com.zpr.rssreader.databinding.ItemFeedBinding
 
+/**
+ * 订阅源列表适配器，展示标题、地址与未读数，支持点击和长按。
+ */
 class FeedAdapter(
     private val onFeedClick: (RssFeedWithUnread) -> Unit,
     private val onFeedLongClick: (RssFeedWithUnread) -> Unit = {}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/feedListFragment">
+
+    <fragment
+        android:id="@+id/feedListFragment"
+        android:name="com.zpr.rssreader.ui.feed.FeedListFragment"
+        android:label="@string/feed_list_title">
+        <action
+            android:id="@+id/action_feedList_to_addFeed"
+            app:destination="@id/addFeedFragment" />
+        <action
+            android:id="@+id/action_feedList_to_itemList"
+            app:destination="@id/itemListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addFeedFragment"
+        android:name="com.zpr.rssreader.ui.feed.AddFeedFragment"
+        android:label="@string/add_feed_screen_title" />
+
+    <fragment
+        android:id="@+id/itemListFragment"
+        android:name="com.zpr.rssreader.ui.item.ItemListFragment"
+        android:label="@string/item_list_title">
+        <argument
+            android:name="feedId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="feedTitle"
+            android:defaultValue=""
+            app:argType="string" />
+        <action
+            android:id="@+id/action_itemList_to_itemDetail"
+            app:destination="@id/itemDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/itemDetailFragment"
+        android:name="com.zpr.rssreader.ui.item.ItemDetailFragment"
+        android:label="@string/item_detail_title">
+        <argument
+            android:name="itemId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.zpr.rssreader.ui.favorite.FavoriteFragment"
+        android:label="@string/favorite_title">
+        <action
+            android:id="@+id/action_favorite_to_itemDetail"
+            app:destination="@id/itemDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.zpr.rssreader.ui.settings.SettingsFragment"
+        android:label="@string/settings_title" />
+</navigation>

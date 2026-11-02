@@ -8,6 +8,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import com.zpr.rssreader.data.local.AppDatabase
 
+/**
+ * 向伴生通知模块暴露未读文章数据。
+ *
+ * 查询参数：since（按抓取时间过滤）、limit（返回条数上限）。
+ * 同时支持通过 update 将指定文章标记为已读。
+ */
 class RssContentProvider : ContentProvider() {
 
     private val database

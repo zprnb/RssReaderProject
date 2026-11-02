@@ -16,8 +16,17 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.TimeZone
 
+/**
+ * RSS 2.0、Atom 与 RSS 1.0 的 XML 解析器。
+ *
+ * 使用 JDOM 将订阅内容转换为 [ParsedFeed]，并处理 CDATA、常见 HTML 实体、
+ * 非法控制字符以及多种时间格式。
+ */
 class RssParser {
 
+    /**
+     * 解析完整 XML 文本；格式不受支持或 XML 非法时抛出 [RssParseException]。
+     */
     fun parse(xml: String): ParsedFeed {
         val content = sanitize(xml)
         if (content.isBlank()) {

@@ -9,6 +9,9 @@ import com.zpr.rssreader.data.repository.RssFeedRepository
 import com.zpr.rssreader.data.repository.RssItemRepository
 import com.zpr.rssreader.data.repository.RssSyncRepository
 
+/**
+ * 轻量依赖容器：集中创建数据库、偏好、网络客户端、解析器与仓库实例。
+ */
 class AppContainer(context: Context) {
 
     private val appContext = context.applicationContext

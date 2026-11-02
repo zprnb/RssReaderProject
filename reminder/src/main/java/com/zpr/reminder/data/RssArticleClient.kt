@@ -4,6 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 
+/**
+ * 通过 ContentProvider 访问主 App 的未读文章，避免两个独立 APK 直接共享数据库文件。
+ */
 class RssArticleClient(private val context: Context) {
 
     fun queryNewArticles(since: Long, limit: Int = DEFAULT_LIMIT): List<RemoteArticle>? {

@@ -7,6 +7,11 @@ import com.zpr.reminder.data.ReminderPreferences
 import com.zpr.reminder.data.RssArticleClient
 import com.zpr.reminder.notification.NotificationHelper
 
+/**
+ * 伴生模块定时检查任务。
+ *
+ * 通过 ContentProvider 读取主 App 的未读文章，发现上次检查之后的新数据时发送通知。
+ */
 class ReminderCheckWorker(
     appContext: Context,
     params: WorkerParameters

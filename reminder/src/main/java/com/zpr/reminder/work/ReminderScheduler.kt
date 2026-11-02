@@ -9,6 +9,9 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
+/**
+ * 伴生模块任务调度器：周期检查、立即检查与稍后提醒。
+ */
 object ReminderScheduler {
 
     private const val BACKOFF_MINUTES = 10L

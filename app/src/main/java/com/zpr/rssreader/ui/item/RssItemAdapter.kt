@@ -13,6 +13,9 @@ import com.zpr.rssreader.databinding.ItemRssItemBinding
 import com.zpr.rssreader.util.DateUtils
 import com.zpr.rssreader.util.TextUtils
 
+/**
+ * 文章列表适配器，展示标题、摘要、时间、未读状态与收藏标记。
+ */
 class RssItemAdapter(
     private val onItemClick: (RssItem) -> Unit
 ) : ListAdapter<RssItem, RssItemAdapter.RssItemViewHolder>(DiffCallback) {

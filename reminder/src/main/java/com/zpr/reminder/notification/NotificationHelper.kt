@@ -9,6 +9,9 @@ import androidx.core.app.NotificationManagerCompat
 import com.zpr.reminder.R
 import com.zpr.reminder.data.RemoteArticle
 
+/**
+ * 通知构建入口：测试通知与新文章提醒，统一使用 RSS 提醒渠道。
+ */
 object NotificationHelper {
 
     const val UPDATE_NOTIFICATION_ID = 1001
@@ -52,6 +55,10 @@ object NotificationHelper {
         return true
     }
 
+    /**
+     * 展示新文章通知，附带“全部已读 / 稍后提醒 / 忽略”三个快捷操作。
+     * 返回 false 表示系统通知权限未开启或通知被系统关闭。
+     */
     @SuppressLint("MissingPermission")
     fun showNewArticlesNotification(
         context: Context,

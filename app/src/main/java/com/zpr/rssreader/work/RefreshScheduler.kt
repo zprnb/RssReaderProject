@@ -11,6 +11,9 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 
+/**
+ * 主 App 刷新任务调度器：周期刷新、立即刷新与取消周期任务。
+ */
 object RefreshScheduler {
 
     private const val REPEAT_INTERVAL_HOURS = 1L

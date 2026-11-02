@@ -6,6 +6,11 @@ import androidx.work.WorkerParameters
 import com.zpr.rssreader.RssApplication
 import kotlinx.coroutines.CancellationException
 
+/**
+ * 主 App 后台刷新任务。
+ *
+ * 在 WorkManager 调度下刷新全部订阅源；全部失败时重试，部分成功时保留结果。
+ */
 class RefreshWorker(
     appContext: Context,
     params: WorkerParameters

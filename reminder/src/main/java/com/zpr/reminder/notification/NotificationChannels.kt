@@ -6,6 +6,9 @@ import android.content.Context
 import android.os.Build
 import com.zpr.reminder.R
 
+/**
+ * 通知渠道管理：Android 8.0 及以上统一创建 RSS 提醒渠道。
+ */
 object NotificationChannels {
 
     const val REMINDER_CHANNEL_ID = "rss_reminders"

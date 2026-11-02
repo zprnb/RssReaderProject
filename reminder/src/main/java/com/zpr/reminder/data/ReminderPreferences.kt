@@ -2,6 +2,9 @@ package com.zpr.reminder.data
 
 import android.content.Context
 
+/**
+ * 伴生模块本地偏好：提醒开关、检查间隔与上次检查时间。
+ */
 class ReminderPreferences(context: Context) {
 
     private val preferences = context.applicationContext
