@@ -12,6 +12,8 @@ class RssApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this)
-        RefreshScheduler.schedulePeriodic(this)
+        if (container.preferences.autoRefreshEnabled) {
+            RefreshScheduler.schedulePeriodic(this)
+        }
     }
 }

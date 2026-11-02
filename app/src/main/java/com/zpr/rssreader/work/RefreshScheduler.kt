@@ -32,6 +32,11 @@ object RefreshScheduler {
         )
     }
 
+    fun cancelPeriodic(context: Context) {
+        WorkManager.getInstance(context)
+            .cancelUniqueWork(RefreshWorker.PERIODIC_WORK_NAME)
+    }
+
     fun refreshNow(context: Context) {
         val request = OneTimeWorkRequestBuilder<RefreshWorker>()
             .setConstraints(networkConstraints())

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">RSS 阅读器</string>
     <string name="add_feed_screen_title">添加订阅源</string>
     <string name="add_feed_tip">填写 RSS 地址后即可添加订阅，添加成功后可在订阅列表中刷新获取最新文章。</string>
     <string name="add_feed_url_label">RSS 地址</string>
@@ -19,4 +20,9 @@
     <string name="action_refresh">刷新</string>
     <string name="item_favorite">已收藏</string>
     <string name="item_untitled">无标题</string>
+    <string name="settings_title">设置</string>
+    <string name="settings_auto_refresh_title">自动后台刷新</string>
+    <string name="settings_auto_refresh_description">每小时检查一次订阅源，仅在网络可用时执行</string>
+    <string name="auto_refresh_on">自动刷新已开启</string>
+    <string name="auto_refresh_off">自动刷新已关闭</string>
 </resources>
