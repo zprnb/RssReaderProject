@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_feed_screen_title">添加订阅源</string>
+    <string name="add_feed_tip">填写 RSS 地址后即可添加订阅，添加成功后可在订阅列表中刷新获取最新文章。</string>
+    <string name="add_feed_url_label">RSS 地址</string>
+    <string name="add_feed_url_hint">https://example.com/feed.xml</string>
+    <string name="add_feed_url_helper">支持 RSS 2.0 与 Atom 格式</string>
+    <string name="add_feed_name_label">自定义名称（可选）</string>
+    <string name="add_feed_name_hint">留空则使用订阅源标题</string>
+    <string name="action_add">添加订阅</string>
+    <string name="action_cancel">取消</string>
+</resources>
