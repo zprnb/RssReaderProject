@@ -9,4 +9,14 @@
     <string name="add_feed_name_hint">留空则使用订阅源标题</string>
     <string name="action_add">添加订阅</string>
     <string name="action_cancel">取消</string>
+    <string name="feed_list_title">订阅源</string>
+    <string name="feed_list_subtitle">管理你的 RSS 订阅</string>
+    <string name="feed_list_empty">还没有订阅源\n点击右下角按钮添加</string>
+    <string name="action_add_feed">添加订阅</string>
+    <string name="feed_unread_content_description">未读 %1$d 篇</string>
+    <string name="item_list_title">最新文章</string>
+    <string name="item_list_empty">暂无文章\n添加订阅源后刷新即可获取</string>
+    <string name="action_refresh">刷新</string>
+    <string name="item_favorite">已收藏</string>
+    <string name="item_untitled">无标题</string>
 </resources>

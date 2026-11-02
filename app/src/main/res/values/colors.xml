@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="unread_badge">#D32F2F</color>
+    <color name="unread_dot">#1E88E5</color>
+    <color name="favorite">#F9A825</color>
+</resources>
